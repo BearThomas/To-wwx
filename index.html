@@ -4,76 +4,92 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>张真源</title>
+  <!-- 使用国内CDN加速资源 -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <!-- 引入思源黑体字体 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind配置 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#ec4899',
+            secondary: '#8b5cf6',
+            tertiary: '#fce7f3',
+          },
+          fontFamily: {
+            sans: ['Noto Sans SC', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <!-- 自定义工具类 -->
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .butterfly {
+        @apply fixed w-10 h-10 text-3xl text-primary pointer-events-none z-50;
+      }
+      .card-hover {
+        @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+      }
+      .btn-primary {
+        @apply bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary/90 transition-all;
+      }
+      .btn-secondary {
+        @apply bg-secondary text-white py-2 px-4 rounded-lg hover:bg-secondary/90 transition-all;
+      }
+    }
+  </style>
+  
   <style>
+    /* 蝴蝶动画 */
     @keyframes butterflyFly {
       0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
       100% { transform: translate(var(--end-x), var(--end-y)) rotate(360deg); opacity: 0; }
     }
     
-    .butterfly {
-      position: fixed;
-      width: 40px;
-      height: 40px;
-      font-size: 36px;
-      line-height: 40px;
-      text-align: center;
-      animation: butterflyFly 3s linear forwards;
-      z-index: 9999;
-      pointer-events: none;
-      user-select: none;
+    /* 平滑滚动 */
+    html {
+      scroll-behavior: smooth;
     }
     
-    .music-player {
-      transition: all 0.3s ease;
+    /* 图片懒加载淡入效果 */
+    img {
+      transition: opacity 0.5s ease-in-out;
     }
     
-    .music-player:hover {
-      transform: scale(1.05);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    .lazy-load {
+      opacity: 0;
     }
     
-    .gallery-item {
-      transition: all 0.3s ease;
-    }
-    
-    .gallery-item:hover {
-      transform: scale(1.03);
-    }
-    
-    .quote-card {
-      transition: all 0.3s ease;
-    }
-    
-    .quote-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-    
-    .countdown-item {
-      transition: all 0.3s ease;
-    }
-    
-    .countdown-item:hover {
-      transform: scale(1.05);
+    .lazy-load.loaded {
+      opacity: 1;
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-pink-50 to-purple-50 min-h-screen font-sans text-gray-800">
+<body class="bg-gradient-to-br from-tertiary to-purple-50 min-h-screen font-sans text-gray-800">
   <!-- 蝴蝶特效容器 -->
   <div id="butterfly-container"></div>
   
   <!-- 导航栏 -->
   <nav class="bg-white shadow-md sticky top-0 z-50">
     <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-pink-600">张真源</h1>
-      <div class="flex space-x-4">
-        <a href="#photos" class="hover:text-pink-600 transition">照片</a>
-        <a href="#music" class="hover:text-pink-600 transition">音乐</a>
-        <a href="#quotes" class="hover:text-pink-600 transition">名言</a>
-        <a href="#design" class="hover:text-pink-600 transition">设计</a>
-        <a href="#countdown" class="hover:text-pink-600 transition">生日倒计时</a>
+      <h1 class="text-xl font-bold text-primary">张真源</h1>
+      <div class="flex space-x-3">
+        <a href="#photos" class="hover:text-primary transition">照片</a>
+        <a href="#music" class="hover:text-primary transition">音乐</a>
+        <a href="#quotes" class="hover:text-primary transition">名言</a>
+        <a href="#design" class="hover:text-primary transition">设计</a>
+        <a href="#countdown" class="hover:text-primary transition">生日倒计时</a>
       </div>
     </div>
   </nav>
@@ -82,135 +98,141 @@
   <main class="container mx-auto px-4 py-8">
     <!-- 照片部分 -->
     <section id="photos" class="mb-16">
-    <h2 class="text-3xl font-bold text-center mb-8 text-pink-600">张真源的照片</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <a href="photos1.html">
-        <div class="gallery-item bg-white rounded-xl overflow-hidden shadow-md">
-          <img src="./Show/3.jpg" alt="张真源照片" class="w-full h-64 object-cover">
-          <div class="p-4">
-            
-                <h3 class="font-semibold text-lg">舞台表演</h3>
-                <p class="text-gray-600 mt-2">张真源在舞台上的精彩瞬间</p>
-            
+      <h2 class="text-3xl font-bold text-center mb-8 text-primary">张真源的照片</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a href="photos1.html">
+          <div class="gallery-item bg-white rounded-xl overflow-hidden shadow-md card-hover">
+            <img src="./Show/3.jpg" alt="张真源舞台表演" class="w-full h-64 object-cover lazy-load">
+            <div class="p-4">
+              <h3 class="font-semibold text-lg">舞台表演</h3>
+              <p class="text-gray-600 mt-2">张真源在舞台上的精彩瞬间</p>
+            </div>
           </div>
-        </div>
-    </a>
-    <a href="photos2.html">
-        <div class="gallery-item bg-white rounded-xl overflow-hidden shadow-md">
-          <img src="./Daily/2.jpg" alt="张真源照片" class="w-full h-64 object-cover">
-          <div class="p-4">
-            
-                <h3 class="font-semibold text-lg">日常生活</h3>
-                <p class="text-gray-600 mt-2">张真源的日常生活照</p>
-            
+        </a>
+        <a href="photos2.html">
+          <div class="gallery-item bg-white rounded-xl overflow-hidden shadow-md card-hover">
+            <img src="./Daily/2.jpg" alt="张真源日常生活" class="w-full h-64 object-cover lazy-load">
+            <div class="p-4">
+              <h3 class="font-semibold text-lg">日常生活</h3>
+              <p class="text-gray-600 mt-2">张真源的日常生活照</p>
+            </div>
           </div>
-        </div>
-    </a>
-    <a href="photos3.html">
-        <div class="gallery-item bg-white rounded-xl overflow-hidden shadow-md">
-          <img src="./Fashion/1.jpg" alt="张真源照片" class="w-full h-64 object-cover">
-          <div class="p-4">
-            
-                <h3 class="font-semibold text-lg">时尚写真</h3>
-                <p class="text-gray-600 mt-2">张真源的时尚大片</p>
-            
+        </a>
+        <a href="photos3.html">
+          <div class="gallery-item bg-white rounded-xl overflow-hidden shadow-md card-hover">
+            <img src="./Fashion/1.jpg" alt="张真源时尚写真" class="w-full h-64 object-cover lazy-load">
+            <div class="p-4">
+              <h3 class="font-semibold text-lg">时尚写真</h3>
+              <p class="text-gray-600 mt-2">张真源的时尚大片</p>
+            </div>
           </div>
-        </div>
+        </a>
       </div>
-    </a>
     </section>
 
     <!-- 音乐部分 -->
     <section id="music" class="mb-16">
-      <h2 class="text-3xl font-bold text-center mb-8 text-pink-600">张真源的音乐</h2>
+      <h2 class="text-3xl font-bold text-center mb-8 text-primary">张真源的音乐</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="music-player bg-white rounded-xl p-6 shadow-md">
+        <div class="music-player bg-white rounded-xl p-6 shadow-md card-hover">
           <h3 class="text-xl font-semibold mb-4">《光影》</h3>
           <audio controls class="w-full mt-2">
             <source src="光影.mp3" type="audio/mpeg">
             您的浏览器不支持音频元素。
           </audio>
-          <button class="mt-4 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition download-btn" data-audio="https://lv-sycdn.kuwo.cn/0974fcad279e785cbed3b3247b5b5aab/683c7007/resource/30106/trackmedia/M500004a56kZ2RZMCW.mp3">下载音乐</button>
+          <button class="mt-4 btn-secondary download-btn" data-audio="光影.mp3">
+            <i class="fa fa-download mr-2"></i>下载音乐
+          </button>
         </div>
-        <div class="music-player bg-white rounded-xl p-6 shadow-md">
+        <div class="music-player bg-white rounded-xl p-6 shadow-md card-hover">
           <h3 class="text-xl font-semibold mb-4">《心桥》</h3>
           <audio controls class="w-full mt-2">
             <source src="心桥.mp3" type="audio/mpeg">
             您的浏览器不支持音频元素。
           </audio>
-          <button class="mt-4 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition download-btn" data-audio="https://lv-sycdn.kuwo.cn/47565ee39e29c533379192cde0aaced7/683c7082/resource/30106/trackmedia/M500003GcQv14YBr6O.mp3">下载音乐</button>
+          <button class="mt-4 btn-secondary download-btn" data-audio="心桥.mp3">
+            <i class="fa fa-download mr-2"></i>下载音乐
+          </button>
         </div>
-        <div class="music-player bg-white rounded-xl p-6 shadow-md">
+        <div class="music-player bg-white rounded-xl p-6 shadow-md card-hover">
           <h3 class="text-xl font-semibold mb-4">《镜花水月》</h3>
           <audio controls class="w-full mt-2">
             <source src="镜花水月.mp3" type="audio/mpeg">
             您的浏览器不支持音频元素。
           </audio>
-          <button class="mt-4 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition download-btn" data-audio="https://er-sycdn.kuwo.cn/6293873df6da48ce94df4ce4d77341dc/683c6002/resource/30106/trackmedia/M500002SeXGB3Mnrti.mp3">下载音乐</button>
+          <button class="mt-4 btn-secondary download-btn" data-audio="镜花水月.mp3">
+            <i class="fa fa-download mr-2"></i>下载音乐
+          </button>
         </div>
-        <div class="music-player bg-white rounded-xl p-6 shadow-md">
+        <div class="music-player bg-white rounded-xl p-6 shadow-md card-hover">
           <h3 class="text-xl font-semibold mb-4">《万花镜》</h3>
           <audio controls class="w-full mt-2">
             <source src="万花镜.mp3" type="audio/mpeg">
             您的浏览器不支持音频元素。
           </audio>
-          <button class="mt-4 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition download-btn" data-audio="https://er-sycdn.kuwo.cn/a0be0a15f43524a55af51b08da7823b1/683c757f/resource/30106/trackmedia/M500003HS6wM045Vq1.mp3">下载音乐</button>
+          <button class="mt-4 btn-secondary download-btn" data-audio="万花镜.mp3">
+            <i class="fa fa-download mr-2"></i>下载音乐
+          </button>
         </div>
-        <div class="music-player bg-white rounded-xl p-6 shadow-md">
-            <h3 class="text-xl font-semibold mb-4">《出渊》</h3>
-            <audio controls class="w-full mt-2">
-                <source src="出渊.mp3" type="audio/mpeg">
-                您的浏览器不支持音频元素。
-            </audio>
-            <button class="mt-4 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition download-btn" data-audio="https://er-sycdn.kuwo.cn/ae6e56973c9ff4ea6ba3708fb363e9cb/683c7615/resource/30106/trackmedia/M500003Yf7Om1zeHSr.mp3">下载音乐</button>
+        <div class="music-player bg-white rounded-xl p-6 shadow-md card-hover">
+          <h3 class="text-xl font-semibold mb-4">《出渊》</h3>
+          <audio controls class="w-full mt-2">
+            <source src="出渊.mp3" type="audio/mpeg">
+            您的浏览器不支持音频元素。
+          </audio>
+          <button class="mt-4 btn-secondary download-btn" data-audio="出渊.mp3">
+            <i class="fa fa-download mr-2"></i>下载音乐
+          </button>
         </div>
-        <div class="music-player bg-white rounded-xl p-6 shadow-md">
-            <h3 class="text-xl font-semibold mb-4">《蝴蝶》</h3>
-            <audio controls class="w-full mt-2">
-                <source src="蝴蝶.mp3" type="audio/mpeg">
-                您的浏览器不支持音频元素。
-            </audio>
-            <button class="mt-4 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition download-btn" data-audio="https://er-sycdn.kuwo.cn/76125a6f7bf673b51d7ec0364578110f/683c76bf/resource/30106/trackmedia/M500002YU1ev1KrUK4.mp3">下载音乐</button>
+        <div class="music-player bg-white rounded-xl p-6 shadow-md card-hover">
+          <h3 class="text-xl font-semibold mb-4">《蝴蝶》</h3>
+          <audio controls class="w-full mt-2">
+            <source src="蝴蝶.mp3" type="audio/mpeg">
+            您的浏览器不支持音频元素。
+          </audio>
+          <button class="mt-4 btn-secondary download-btn" data-audio="https://er-sycdn.kuwo.cn/76125a6f7bf673b51d7ec0364578110f/683c76bf/resource/30106/trackmedia/M500002YU1ev1KrUK4.mp3">
+            <i class="fa fa-download mr-2"></i>下载音乐
+          </button>
         </div>
-    </div>
+      </div>
     </section>
 
     <!-- 名言部分 -->
     <section id="quotes" class="mb-16">
-      <h2 class="text-3xl font-bold text-center mb-8 text-pink-600">张真源的名言</h2>
+      <h2 class="text-3xl font-bold text-center mb-8 text-primary">张真源的名言</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="quote-card bg-white rounded-xl p-6 shadow-md">
-          <blockquote class="text-lg italic text-gray-700 copy-quote" style="cursor:pointer;">
+        <div class="quote-card bg-white rounded-xl p-6 shadow-md card-hover">
+          <blockquote class="text-lg italic text-gray-700 copy-quote cursor-pointer">
             "机会可从来不会等人，原地踏步久了，就更难迈出下一步。"
           </blockquote>
           <div class="mt-4 text-right text-gray-500">—— 张真源</div>
         </div>
-        <div class="quote-card bg-white rounded-xl p-6 shadow-md">
-          <blockquote class="text-lg italic text-gray-700 copy-quote" style="cursor:pointer;">
+        <div class="quote-card bg-white rounded-xl p-6 shadow-md card-hover">
+          <blockquote class="text-lg italic text-gray-700 copy-quote cursor-pointer">
             "梦想不是遥不可及的，只要你愿意为之付出努力。"
           </blockquote>
           <div class="mt-4 text-right text-gray-500">—— 张真源</div>
         </div>
-        <div class="quote-card bg-white rounded-xl p-6 shadow-md">
-          <blockquote class="text-lg italic text-gray-700 copy-quote" style="cursor:pointer;">
+        <div class="quote-card bg-white rounded-xl p-6 shadow-md card-hover">
+          <blockquote class="text-lg italic text-gray-700 copy-quote cursor-pointer">
             "每一次的舞台都是新的开始，我要用最好的状态面对。"
           </blockquote>
           <div class="mt-4 text-right text-gray-500">—— 张真源</div>
         </div>
-        <div class="quote-card bg-white rounded-xl p-6 shadow-md">
-          <blockquote class="text-lg italic text-gray-700 copy-quote" style="cursor:pointer;">
+        <div class="quote-card bg-white rounded-xl p-6 shadow-md card-hover">
+          <blockquote class="text-lg italic text-gray-700 copy-quote cursor-pointer">
             "成长就是不断突破自己的过程，不要害怕失败。"
           </blockquote>
           <div class="mt-4 text-right text-gray-500">—— 张真源</div>
         </div>
-        <div class="quote-card bg-white rounded-xl p-6 shadow-md">
-          <blockquote class="text-lg italic text-gray-700 copy-quote" style="cursor:pointer;">
+        <div class="quote-card bg-white rounded-xl p-6 shadow-md card-hover">
+          <blockquote class="text-lg italic text-gray-700 copy-quote cursor-pointer">
             "音乐是我表达情感的方式，我希望通过音乐传递正能量。"
           </blockquote>
           <div class="mt-4 text-right text-gray-500">—— 张真源</div>
         </div>
-        <div class="quote-card bg-white rounded-xl p-6 shadow-md">
-          <blockquote class="text-lg italic text-gray-700 copy-quote" style="cursor:pointer;">
+        <div class="quote-card bg-white rounded-xl p-6 shadow-md card-hover">
+          <blockquote class="text-lg italic text-gray-700 copy-quote cursor-pointer">
             "感谢所有支持我的人，你们的爱是我前进的动力。"
           </blockquote>
           <div class="mt-4 text-right text-gray-500">—— 张真源</div>
@@ -220,7 +242,7 @@
 
     <!-- 图片设计部分 -->
     <section id="design" class="mb-16">
-      <h2 class="text-3xl font-bold text-center mb-8 text-pink-600">张真源图片设计</h2>
+      <h2 class="text-3xl font-bold text-center mb-8 text-primary">张真源图片设计</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div class="bg-white rounded-xl p-6 shadow-md">
           <h3 class="text-xl font-semibold mb-4">自定义设计</h3>
@@ -236,7 +258,7 @@
             <div class="flex items-center">
               <label class="w-24">字体:</label>
               <select id="font-family" class="flex-1 px-3 py-2 border rounded-lg">
-                <option value="'Microsoft YaHei',sans-serif">微软雅黑</option>
+                <option value="'Noto Sans SC',sans-serif">思源黑体</option>
                 <option value="'SimSun',serif">宋体</option>
                 <option value="'KaiTi',serif">楷体</option>
                 <option value="Arial,sans-serif">Arial</option>
@@ -270,31 +292,33 @@
                 <option value="⭐">⭐ 星星</option>
                 <option value="😄">😄 笑脸</option>
               </select>
-              <button id="add-sticker-btn" class="ml-2 px-3 py-2 bg-pink-400 text-white rounded-lg hover:bg-pink-500 transition">添加</button>
+              <button id="add-sticker-btn" class="ml-2 px-3 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition">添加</button>
             </div>
             <div class="flex items-center">
               <label class="w-24">上传图片:</label>
               <input id="upload-img" type="file" accept="image/*" class="flex-1 px-3 py-2 border rounded-lg bg-white" />
             </div>
-            <button id="generate-btn" class="mt-4 px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition">生成/更新名言</button>
+            <button id="generate-btn" class="mt-4 btn-primary">生成/更新名言</button>
           </div>
         </div>
         <div id="design-preview" class="relative bg-pink-100 rounded-xl p-8 shadow-md min-h-64 flex items-center justify-center overflow-hidden" style="min-height:320px;">
           <div id="design-canvas" style="width:100%;height:100%;position:relative;">
-            <div id="design-quote" style="position:absolute;left:50px;top:50px;cursor:move;user-select:none;font-size:28px;color:#db2777;font-family:'Microsoft YaHei',sans-serif;max-width:80%;">
+            <div id="design-quote" style="position:absolute;left:50px;top:50px;cursor:move;user-select:none;font-size:28px;color:#db2777;font-family:'Noto Sans SC',sans-serif;max-width:80%;">
               "机会可从来不会等人，原地踏步久了，就更难迈出下一步。"<br><span style="font-size:16px;display:block;margin-top:8px;">—— 张真源</span>
             </div>
           </div>
         </div>
       </div>
       <div class="mt-8 text-center">
-        <button id="download-design-btn" class="px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition">下载设计图片</button>
+        <button id="download-design-btn" class="btn-secondary">
+          <i class="fa fa-download mr-2"></i>下载设计图片
+        </button>
       </div>
     </section>
 
     <!-- 生日倒计时部分 -->
     <section id="countdown" class="mb-16">
-      <h2 class="text-3xl font-bold text-center mb-8 text-pink-600">张真源生日倒计时</h2>
+      <h2 class="text-3xl font-bold text-center mb-8 text-primary">张真源生日倒计时</h2>
       <div class="flex justify-center">
         <div class="bg-white rounded-xl p-8 shadow-md max-w-2xl w-full">
           <div class="text-center mb-6">
@@ -302,19 +326,19 @@
           </div>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div class="countdown-item bg-pink-100 rounded-lg p-4 text-center">
-              <div id="days" class="text-3xl font-bold text-pink-600">00</div>
+              <div id="days" class="text-3xl font-bold text-primary">00</div>
               <div class="text-gray-600">天</div>
             </div>
             <div class="countdown-item bg-purple-100 rounded-lg p-4 text-center">
-              <div id="hours" class="text-3xl font-bold text-purple-600">00</div>
+              <div id="hours" class="text-3xl font-bold text-secondary">00</div>
               <div class="text-gray-600">小时</div>
             </div>
             <div class="countdown-item bg-pink-100 rounded-lg p-4 text-center">
-              <div id="minutes" class="text-3xl font-bold text-pink-600">00</div>
+              <div id="minutes" class="text-3xl font-bold text-primary">00</div>
               <div class="text-gray-600">分钟</div>
             </div>
             <div class="countdown-item bg-purple-100 rounded-lg p-4 text-center">
-              <div id="seconds" class="text-3xl font-bold text-purple-600">00</div>
+              <div id="seconds" class="text-3xl font-bold text-secondary">00</div>
               <div class="text-gray-600">秒</div>
             </div>
           </div>
@@ -334,42 +358,47 @@
     </div>
   </footer>
 
+  <!-- 消息容器 -->
+  <!--<div id="message-container" class="fixed top-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-full"></div>-->
   <script>
-    // 蝴蝶特效
-    document.addEventListener('click', function(e) {
-      // 排除下载按钮和设计按钮的点击
-      if (e.target.classList.contains('download-btn') || e.target.id === 'generate-btn' || e.target.id === 'download-design-btn') {
-        return;
-      }
+    // 图片懒加载
+    let isDragging = false;
+    document.addEventListener("DOMContentLoaded", function() {
+      const lazyImages = document.querySelectorAll('img.lazy-load');
       
-      const butterfly = document.createElement('div');
-      butterfly.className = 'butterfly';
-      butterfly.innerText = '🦋';
-      // 设置蝴蝶起始位置为点击位置
-      butterfly.style.left = e.clientX + 'px';
-      butterfly.style.top = e.clientY + 'px';
-      // 随机设置蝴蝶的结束位置
-      const angle = Math.random() * Math.PI * 2;
-      const distance = 100 + Math.random() * 200;
-      const endX = Math.cos(angle) * distance;
-      const endY = Math.sin(angle) * distance;
-      butterfly.style.setProperty('--end-x', endX + 'px');
-      butterfly.style.setProperty('--end-y', endY + 'px');
-      document.getElementById('butterfly-container').appendChild(butterfly);
-      // 动画结束后移除蝴蝶元素
-      setTimeout(() => {
-        butterfly.remove();
-      }, 3000);
+      if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const image = entry.target;
+              image.classList.remove('lazy-load');
+              image.classList.add('loaded');
+              imageObserver.unobserve(image);
+            }
+          });
+        });
+        
+        lazyImages.forEach(img => {
+          imageObserver.observe(img);
+        });
+      } else {
+        // 回退方案，立即加载所有图片
+        lazyImages.forEach(img => {
+          img.classList.remove('lazy-load');
+          img.classList.add('loaded');
+        });
+      }
     });
-    
-    // 图片展示区不再有下载图片按钮
 
-    // 名言点击复制功能（无按钮，点击文字即可复制）
+    
+
+    // 名言点击复制功能
     document.querySelectorAll('.copy-quote').forEach(function(el) {
       el.addEventListener('click', function() {
         const text = el.innerText.replace(/^[“"]|[”"]$/g, '');
         if (navigator.clipboard) {
           navigator.clipboard.writeText(text);
+          
         } else {
           // 兼容旧浏览器
           const textarea = document.createElement('textarea');
@@ -378,23 +407,48 @@
           textarea.select();
           document.execCommand('copy');
           document.body.removeChild(textarea);
+          
         }
       });
     });
-    
-    // 图片设计功能
-    const quotes = [
-      '机会可从来不会等人，原地踏步久了，就更难迈出下一步。',
-      '梦想不是遥不可及的，只要你愿意为之付出努力。',
-      '每一次的舞台都是新的开始，我要用最好的状态面对。',
-      '成长就是不断突破自己的过程，不要害怕失败。',
-      '音乐是我表达情感的方式，我希望通过音乐传递正能量。',
-      '感谢所有支持我的人，你们的爱是我前进的动力。'
-    ];
 
+    // 显示提示框
+    function showToast(message) {
+      const messageContainer = document.getElementById('message-container');
+      messageContainer.innerText = message;
+      messageContainer.classList.remove('translate-x-full');
+
+      // 3秒后隐藏
+      setTimeout(() => {
+        messageContainer.classList.add('translate-x-full');
+      }, 3000);
+    }
+
+    // 音乐下载功能
+    document.querySelectorAll('.download-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const audioUrl = this.getAttribute('data-audio');
+        if (!audioUrl) return;
+        
+        // 创建隐藏的a标签用于下载
+        const link = document.createElement('a');
+        link.href = audioUrl;
+        link.download = this.parentElement.querySelector('h3').textContent.trim() + '.mp3';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // 显示下载提示
+        
+      });
+    });
+
+    // 图片设计功能
     // 拖动功能
     function makeDraggable(el) {
       let isDragging = false, startX, startY, origX, origY;
+
+      // 鼠标事件
       el.addEventListener('mousedown', function(e) {
         isDragging = true;
         startX = e.clientX;
@@ -404,6 +458,19 @@
         el.style.zIndex = 10;
         document.body.style.userSelect = 'none';
       });
+
+      // 触摸事件（移动端支持）
+      el.addEventListener('touchstart', function(e) {
+        isDragging = true;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        origX = parseInt(el.style.left) || 0;
+        origY = parseInt(el.style.top) || 0;
+        el.style.zIndex = 10;
+        document.body.style.userSelect = 'none';
+        e.preventDefault(); // 防止滚动
+      });
+
       document.addEventListener('mousemove', function(e) {
         if (!isDragging) return;
         let dx = e.clientX - startX;
@@ -411,7 +478,23 @@
         el.style.left = (origX + dx) + 'px';
         el.style.top = (origY + dy) + 'px';
       });
+
+      document.addEventListener('touchmove', function(e) {
+        if (!isDragging) return;
+        let dx = e.touches[0].clientX - startX;
+        let dy = e.touches[0].clientY - startY;
+        el.style.left = (origX + dx) + 'px';
+        el.style.top = (origY + dy) + 'px';
+        e.preventDefault(); // 防止滚动
+      });
+
       document.addEventListener('mouseup', function() {
+        isDragging = false;
+        el.style.zIndex = '';
+        document.body.style.userSelect = '';
+      });
+
+      document.addEventListener('touchend', function() {
         isDragging = false;
         el.style.zIndex = '';
         document.body.style.userSelect = '';
@@ -433,6 +516,8 @@
       quoteDiv.style.color = textColor;
       quoteDiv.style.fontFamily = fontFamily;
       quoteDiv.style.fontSize = fontSize + 'px';
+      
+      
     });
 
     // 贴纸添加
@@ -450,7 +535,10 @@
       stickerDiv.style.userSelect = 'none';
       makeDraggable(stickerDiv);
       canvas.appendChild(stickerDiv);
+      
+      
     });
+    
 
     // 上传图片
     document.getElementById('upload-img').addEventListener('change', function(e) {
@@ -469,13 +557,15 @@
         img.style.userSelect = 'none';
         makeDraggable(img);
         document.getElementById('design-canvas').appendChild(img);
+        
+        
       };
       reader.readAsDataURL(file);
     });
 
     // 初始可拖动
     makeDraggable(document.getElementById('design-quote'));
-    
+
     // 下载设计图片
     document.getElementById('download-design-btn').addEventListener('click', function() {
       // 创建蝴蝶特效
@@ -504,15 +594,41 @@
       }
       
       // 使用html2canvas库下载设计图片
+      if (typeof html2canvas === 'undefined') {
+        showToast('正在加载截图工具，请稍后再试...');
+        // 动态加载html2canvas
+        const script = document.createElement('script');
+        script.src = 'https://html2canvas.hertzen.com/dist/html2canvas.min.js';
+        script.onload = function() {
+          captureAndDownload();
+        };
+        document.head.appendChild(script);
+      } else {
+        captureAndDownload();
+      }
+    });
+
+    function captureAndDownload() {
       const designPreview = document.getElementById('design-preview');
-      html2canvas(designPreview).then(canvas => {
+      html2canvas(designPreview, {
+        logging: false,
+        useCORS: true,
+        scale: 2 // 提高分辨率
+      }).then(canvas => {
         const link = document.createElement('a');
         link.download = '张真源名言设计.png';
         link.href = canvas.toDataURL('image/png');
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
+        
+        
+      }).catch(error => {
+        console.error('截图失败:', error);
+        
       });
-    });
-    
+    }
+
     // 生日倒计时
     function updateCountdown() {
       // 张真源生日是4月16日
@@ -525,34 +641,21 @@
         nextBirthday = new Date(currentYear + 1, 3, 16);
       }
       
-      const diff = nextBirthday - now;
+      const diffTime = Math.abs(nextBirthday - now);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
+      const diffSeconds = Math.floor((diffTime % (1000 * 60)) / 1000);
       
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-      
-      document.getElementById('days').textContent = days.toString().padStart(2, '0');
-      document.getElementById('hours').textContent = Math.floor(hours).toString().padStart(2, '0');
-      document.getElementById('minutes').textContent = Math.floor(minutes).toString().padStart(2, '0');
-      document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+      document.getElementById('days').innerText = String(diffDays).padStart(2, '0');
+      document.getElementById('hours').innerText = String(diffHours).padStart(2, '0');
+      document.getElementById('minutes').innerText = String(diffMinutes).padStart(2, '0');
+      document.getElementById('seconds').innerText = String(diffSeconds).padStart(2, '0');
     }
-    
-    // 初始化倒计时并每秒更新
+
+    // 初始化生日倒计时
     updateCountdown();
     setInterval(updateCountdown, 1000);
-    
-    // 加载html2canvas库
-    function loadScript(src, callback) {
-      const script = document.createElement('script');
-      script.src = src;
-      script.onload = callback;
-      document.head.appendChild(script);
-    }
-    
-    loadScript('https://html2canvas.hertzen.com/dist/html2canvas.min.js', function() {
-      console.log('html2canvas loaded');
-    });
   </script>
 </body>
 </html>
