@@ -1,22 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>张真源</title>
-  <!-- 使用国内CDN加速资源 -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
-  <!-- 引入思源黑体字体 -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
-
-  <!-- 引入 spectrum 库 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
-
-  <!-- Tailwind配置 -->
   <script>
     tailwind.config = {
       theme: {
@@ -33,87 +23,46 @@
       }
     }
   </script>
-
-  <!-- 自定义工具类 -->
   <style type="text/tailwindcss">
     @layer utilities {
       .content-auto {
         content-visibility: auto;
       }
-
       .butterfly {
         @apply fixed w-10 h-10 text-3xl text-primary pointer-events-none z-50;
       }
-
       .card-hover {
         @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
       }
-
       .btn-primary {
         @apply bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary/90 transition-all;
       }
-
       .btn-secondary {
         @apply bg-secondary text-white py-2 px-4 rounded-lg hover:bg-secondary/90 transition-all;
       }
     }
   </style>
-
   <style>
-    /* 蝴蝶动画 */
     @keyframes butterflyFly {
-      0% {
-        transform: translate(0, 0) rotate(0deg);
-        opacity: 1;
-      }
-
-      100% {
-        transform: translate(var(--end-x), var(--end-y)) rotate(360deg);
-        opacity: 0;
-      }
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+      100% { transform: translate(var(--end-x), var(--end-y)) rotate(360deg); opacity: 0; }
     }
-
-    /* 平滑滚动 */
     html {
       scroll-behavior: smooth;
     }
-
-    /* 图片懒加载淡入效果 */
     img {
       transition: opacity 0.5s ease-in-out;
     }
-
     .lazy-load {
       opacity: 0;
     }
-
     .lazy-load.loaded {
       opacity: 1;
     }
-
-    /* 响应式设计优化 */
-    @media (max-width: 768px) {
-      #design-preview {
-        min-height: 200px;
-      }
-
-      #design-canvas {
-        width: 100%;
-        height: 100%;
-      }
-
-      #design-quote {
-        max-width: 90%;
-      }
-    }
   </style>
 </head>
-
 <body class="bg-gradient-to-br from-tertiary to-purple-50 min-h-screen font-sans text-gray-800">
-  <!-- 蝴蝶特效容器 -->
   <div id="butterfly-container"></div>
-
-  <!-- 导航栏 -->
   <nav class="bg-white shadow-md sticky top-0 z-50">
     <div class="container mx-auto px-4 py-3 flex justify-between items-center">
       <h1 class="text-xl font-bold text-primary">张真源</h1>
@@ -126,16 +75,13 @@
       </div>
     </div>
   </nav>
-
-  <!-- 主要内容 -->
-  <main class="container mx-auto px-4 py-8">
-    <!-- 照片部分 -->
+  <main class="container mx-auto px-4 py-8 max-w-full">
     <section id="photos" class="mb-16">
       <h2 class="text-3xl font-bold text-center mb-8 text-primary">张真源的照片</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <a href="photos1.html">
           <div class="gallery-item bg-white rounded-xl overflow-hidden shadow-md card-hover">
-            <img src="./Show/3.jpg" alt="张真源舞台表演" class="w-full h-64 object-cover">
+            <img src="./Show/3.jpg" alt="张真源舞台表演" class="w-full max-w-full h-64 object-cover lazy-load">
             <div class="p-4">
               <h3 class="font-semibold text-lg">舞台表演</h3>
               <p class="text-gray-600 mt-2">张真源在舞台上的精彩瞬间</p>
@@ -144,7 +90,7 @@
         </a>
         <a href="photos2.html">
           <div class="gallery-item bg-white rounded-xl overflow-hidden shadow-md card-hover">
-            <img src="./Daily/2.jpg" alt="张真源日常生活" class="w-full h-64 object-cover">
+            <img src="./Daily/2.jpg" alt="张真源日常生活" class="w-full max-w-full h-64 object-cover lazy-load">
             <div class="p-4">
               <h3 class="font-semibold text-lg">日常生活</h3>
               <p class="text-gray-600 mt-2">张真源的日常生活照</p>
@@ -153,7 +99,7 @@
         </a>
         <a href="photos3.html">
           <div class="gallery-item bg-white rounded-xl overflow-hidden shadow-md card-hover">
-            <img src="./Fashion/1.jpg" alt="张真源时尚写真" class="w-full h-64 object-cover">
+            <img src="./Fashion/1.jpg" alt="张真源时尚写真" class="w-full max-w-full h-64 object-cover lazy-load">
             <div class="p-4">
               <h3 class="font-semibold text-lg">时尚写真</h3>
               <p class="text-gray-600 mt-2">张真源的时尚大片</p>
