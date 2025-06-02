@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,14 @@
   <!-- 使用国内CDN加速资源 -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  
+
   <!-- 引入思源黑体字体 -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
-  
+
+  <!-- 引入 spectrum 库 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
+
   <!-- Tailwind配置 -->
   <script>
     tailwind.config = {
@@ -28,58 +33,86 @@
       }
     }
   </script>
-  
+
   <!-- 自定义工具类 -->
   <style type="text/tailwindcss">
     @layer utilities {
       .content-auto {
         content-visibility: auto;
       }
+
       .butterfly {
         @apply fixed w-10 h-10 text-3xl text-primary pointer-events-none z-50;
       }
+
       .card-hover {
         @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
       }
+
       .btn-primary {
         @apply bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary/90 transition-all;
       }
+
       .btn-secondary {
         @apply bg-secondary text-white py-2 px-4 rounded-lg hover:bg-secondary/90 transition-all;
       }
     }
   </style>
-  
+
   <style>
     /* 蝴蝶动画 */
     @keyframes butterflyFly {
-      0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
-      100% { transform: translate(var(--end-x), var(--end-y)) rotate(360deg); opacity: 0; }
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translate(var(--end-x), var(--end-y)) rotate(360deg);
+        opacity: 0;
+      }
     }
-    
+
     /* 平滑滚动 */
     html {
       scroll-behavior: smooth;
     }
-    
+
     /* 图片懒加载淡入效果 */
     img {
       transition: opacity 0.5s ease-in-out;
     }
-    
+
     .lazy-load {
       opacity: 0;
     }
-    
+
     .lazy-load.loaded {
       opacity: 1;
     }
+
+    /* 响应式设计优化 */
+    @media (max-width: 768px) {
+      #design-preview {
+        min-height: 200px;
+      }
+
+      #design-canvas {
+        width: 100%;
+        height: 100%;
+      }
+
+      #design-quote {
+        max-width: 90%;
+      }
+    }
   </style>
 </head>
+
 <body class="bg-gradient-to-br from-tertiary to-purple-50 min-h-screen font-sans text-gray-800">
   <!-- 蝴蝶特效容器 -->
   <div id="butterfly-container"></div>
-  
+
   <!-- 导航栏 -->
   <nav class="bg-white shadow-md sticky top-0 z-50">
     <div class="container mx-auto px-4 py-3 flex justify-between items-center">
@@ -150,7 +183,7 @@
             <source src="心桥.mp3" type="audio/mpeg">
             您的浏览器不支持音频元素。
           </audio>
-          <button class="mt-4 btn-secondary download-btn" data-audio="心桥">
+          <button class="mt-4 btn-secondary download-btn" data-audio="心桥.mp3">
             <i class="fa fa-download mr-2"></i>下载音乐
           </button>
         </div>
@@ -190,7 +223,7 @@
             <source src="蝴蝶.mp3" type="audio/mpeg">
             您的浏览器不支持音频元素。
           </audio>
-          <button class="mt-4 btn-secondary download-btn" data-audio="https://er-sycdn.kuwo.cn/76125a6f7bf673b51d7ec0364578110f/683c76bf/resource/30106/trackmedia/M500002YU1ev1KrUK4.mp3">
+          <button class="mt-4 btn-secondary download-btn" data-audio="蝴蝶.mp3">
             <i class="fa fa-download mr-2"></i>下载音乐
           </button>
         </div>
@@ -231,12 +264,6 @@
           </blockquote>
           <div class="mt-4 text-right text-gray-500">—— 张真源</div>
         </div>
-        <div class="quote-card bg-white rounded-xl p-6 shadow-md card-hover">
-          <blockquote class="text-lg italic text-gray-700 copy-quote cursor-pointer">
-            "感谢所有支持我的人，你们的爱是我前进的动力。"
-          </blockquote>
-          <div class="mt-4 text-right text-gray-500">—— 张真源</div>
-        </div>
       </div>
     </section>
 
@@ -249,11 +276,11 @@
           <div class="flex flex-col space-y-4">
             <div class="flex items-center">
               <label class="w-24">背景颜色:</label>
-              <input id="bg-color" type="color" value="#fce7f3" class="flex-1 w-16 h-10 border rounded-lg p-0" />
+              <input id="bg-color" type="text" value="#fce7f3" class="flex-1 w-16 h-10 border rounded-lg p-0" />
             </div>
             <div class="flex items-center">
               <label class="w-24">文字颜色:</label>
-              <input id="text-color" type="color" value="#db2777" class="flex-1 w-16 h-10 border rounded-lg p-0" />
+              <input id="text-color" type="text" value="#db2777" class="flex-1 w-16 h-10 border rounded-lg p-0" />
             </div>
             <div class="flex items-center">
               <label class="w-24">字体:</label>
@@ -271,7 +298,8 @@
             </div>
             <div class="flex items-center">
               <label class="w-24">名言内容:</label>
-              <input id="quote-input" type="text" class="flex-1 px-3 py-2 border rounded-lg" list="quote-presets" value="机会可从来不会等人，原地踏步久了，就更难迈出下一步。" />
+              <input id="quote-input" type="text" class="flex-1 px-3 py-2 border rounded-lg" list="quote-presets"
+                value="机会可从来不会等人，原地踏步久了，就更难迈出下一步。" />
               <datalist id="quote-presets">
                 <option value="机会可从来不会等人，原地踏步久了，就更难迈出下一步。">
                 <option value="梦想不是遥不可及的，只要你愿意为之付出努力。">
@@ -292,19 +320,24 @@
                 <option value="⭐">⭐ 星星</option>
                 <option value="😄">😄 笑脸</option>
               </select>
-              <button id="add-sticker-btn" class="ml-2 px-3 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition">添加</button>
+              <button id="add-sticker-btn"
+                class="ml-2 px-3 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition">添加</button>
             </div>
             <div class="flex items-center">
               <label class="w-24">上传图片:</label>
-              <input id="upload-img" type="file" accept="image/*" class="flex-1 px-3 py-2 border rounded-lg bg-white" />
+              <input id="upload-img" type="file" accept="image/*"
+                class="flex-1 px-3 py-2 border rounded-lg bg-white" />
             </div>
             <button id="generate-btn" class="mt-4 btn-primary">生成/更新名言</button>
           </div>
         </div>
-        <div id="design-preview" class="relative bg-pink-100 rounded-xl p-8 shadow-md min-h-64 flex items-center justify-center overflow-hidden" style="min-height:320px;">
+        <div id="design-preview"
+          class="relative bg-pink-100 rounded-xl p-8 shadow-md min-h-64 flex items-center justify-center overflow-hidden sm:min-h-48">
           <div id="design-canvas" style="width:100%;height:100%;position:relative;">
-            <div id="design-quote" style="position:absolute;left:50px;top:50px;cursor:move;user-select:none;font-size:28px;color:#db2777;font-family:'Noto Sans SC',sans-serif;max-width:80%;">
-              "机会可从来不会等人，原地踏步久了，就更难迈出下一步。"<br><span style="font-size:16px;display:block;margin-top:8px;">—— 张真源</span>
+            <div id="design-quote"
+              style="position:absolute;left:50px;top:50px;cursor:move;user-select:none;font-size:28px;color:#db2777;font-family:'Noto Sans SC',sans-serif;max-width:80%;">
+              "机会可从来不会等人，原地踏步久了，就更难迈出下一步。"<br><span
+                style="font-size:16px;display:block;margin-top:8px;">—— 张真源</span>
             </div>
           </div>
         </div>
@@ -359,10 +392,19 @@
   </footer>
 
   <script>
-    // 图片懒加载
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
+      // 初始化 spectrum 颜色选择器
+      $("#bg-color").spectrum({
+        preferredFormat: "hex",
+        showInput: true
+      });
+      $("#text-color").spectrum({
+        preferredFormat: "hex",
+        showInput: true
+      });
+
       const lazyImages = document.querySelectorAll('img.lazy-load');
-      
+
       if ('IntersectionObserver' in window) {
         const imageObserver = new IntersectionObserver((entries, observer) => {
           entries.forEach(entry => {
@@ -374,7 +416,7 @@
             }
           });
         });
-        
+
         lazyImages.forEach(img => {
           imageObserver.observe(img);
         });
@@ -385,324 +427,296 @@
           img.classList.add('loaded');
         });
       }
-    });
 
-    // 蝴蝶特效
-    document.addEventListener('click', function(e) {
-      // 排除下载按钮和设计按钮的点击
-      if (e.target.classList.contains('download-btn') || e.target.id === 'generate-btn' || e.target.id === 'download-design-btn') {
-        return;
-      }
-      
-      const butterfly = document.createElement('div');
-      butterfly.className = 'butterfly';
-      butterfly.innerText = '🦋';
-      // 设置蝴蝶起始位置为点击位置
-      butterfly.style.left = e.clientX + 'px';
-      butterfly.style.top = e.clientY + 'px';
-      // 随机设置蝴蝶的结束位置
-      const angle = Math.random() * Math.PI * 2;
-      const distance = 100 + Math.random() * 200;
-      const endX = Math.cos(angle) * distance;
-      const endY = Math.sin(angle) * distance;
-      butterfly.style.setProperty('--end-x', endX + 'px');
-      butterfly.style.setProperty('--end-y', endY + 'px');
-      document.getElementById('butterfly-container').appendChild(butterfly);
-      // 动画结束后移除蝴蝶元素
-      setTimeout(() => {
-        butterfly.remove();
-      }, 3000);
-    });
-    
-    // 名言点击复制功能
-    document.querySelectorAll('.copy-quote').forEach(function(el) {
-      el.addEventListener('click', function() {
-        const text = el.innerText.replace(/^[“"]|[”"]$/g, '');
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText(text);
-          showToast('复制成功！');
-        } else {
-          // 兼容旧浏览器
-          const textarea = document.createElement('textarea');
-          textarea.value = text;
-          document.body.appendChild(textarea);
-          textarea.select();
-          document.execCommand('copy');
-          document.body.removeChild(textarea);
-          showToast('复制成功！');
+      // 蝴蝶特效
+      document.addEventListener('click', function (e) {
+        // 排除下载按钮和设计按钮的点击
+        if (e.target.classList.contains('download-btn') || e.target.id === 'generate-btn' || e.target.id === 'download-design-btn') {
+          return;
         }
-      });
-    });
-    
-    // 显示提示框
-    function showToast(message) {
-      const toast = document.createElement('div');
-      toast.className = 'fixed top-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-full';
-      toast.innerText = message;
-      document.body.appendChild(toast);
-      
-      // 触发动画
-      setTimeout(() => {
-        toast.classList.remove('translate-x-full');
-      }, 10);
-      
-      // 3秒后隐藏
-      setTimeout(() => {
-        toast.classList.add('translate-x-full');
+
+        const butterfly = document.createElement('div');
+        butterfly.className = 'butterfly';
+        butterfly.innerText = '🦋';
+        // 设置蝴蝶起始位置为点击位置
+        butterfly.style.left = e.clientX + 'px';
+        butterfly.style.top = e.clientY + 'px';
+        // 随机设置蝴蝶的结束位置
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 100 + Math.random() * 200;
+        const endX = Math.cos(angle) * distance;
+        const endY = Math.sin(angle) * distance;
+        butterfly.style.setProperty('--end-x', endX + 'px');
+        butterfly.style.setProperty('--end-y', endY + 'px');
+        document.getElementById('butterfly-container').appendChild(butterfly);
+        // 动画结束后移除蝴蝶元素
         setTimeout(() => {
-          document.body.removeChild(toast);
-        }, 300);
-      }, 3000);
-    }
-    
-    // 音乐下载功能
-    document.querySelectorAll('.download-btn').forEach(button => {
-      button.addEventListener('click', function() {
-        const audioUrl = this.getAttribute('data-audio');
-        if (!audioUrl) return;
-        
-        // 创建隐藏的a标签用于下载
-        const link = document.createElement('a');
-        link.href = audioUrl;
-        link.download = this.parentElement.querySelector('h3').textContent.trim() + '.mp3';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        // 显示下载提示
-        showToast('开始下载音乐...');
+          butterfly.remove();
+        }, 3000);
       });
-    });
-    
-    // 图片设计功能
-    // 拖动功能
-    function makeDraggable(el) {
-      let isDragging = false, startX, startY, origX, origY;
-      
-      // 鼠标事件
-      el.addEventListener('mousedown', function(e) {
-        isDragging = true;
-        startX = e.clientX;
-        startY = e.clientY;
-        origX = parseInt(el.style.left) || 0;
-        origY = parseInt(el.style.top) || 0;
-        el.style.zIndex = 10;
-        document.body.style.userSelect = 'none';
-      });
-      
-      // 触摸事件（移动端支持）
-      el.addEventListener('touchstart', function(e) {
-        isDragging = true;
-        startX = e.touches[0].clientX;
-        startY = e.touches[0].clientY;
-        origX = parseInt(el.style.left) || 0;
-        origY = parseInt(el.style.top) || 0;
-        el.style.zIndex = 10;
-        document.body.style.userSelect = 'none';
-        e.preventDefault(); // 防止滚动
-      });
-      
-      document.addEventListener('mousemove', function(e) {
-        if (!isDragging) return;
-        let dx = e.clientX - startX;
-        let dy = e.clientY - startY;
-        el.style.left = (origX + dx) + 'px';
-        el.style.top = (origY + dy) + 'px';
-      });
-      
-      document.addEventListener('touchmove', function(e) {
-        if (!isDragging) return;
-        let dx = e.touches[0].clientX - startX;
-        let dy = e.touches[0].clientY - startY;
-        el.style.left = (origX + dx) + 'px';
-        el.style.top = (origY + dy) + 'px';
-        e.preventDefault(); // 防止滚动
-      });
-      
-      document.addEventListener('mouseup', function() {
-        isDragging = false;
-        el.style.zIndex = '';
-        document.body.style.userSelect = '';
-      });
-      
-      document.addEventListener('touchend', function() {
-        isDragging = false;
-        el.style.zIndex = '';
-        document.body.style.userSelect = '';
-      });
-    }
 
-    // 生成/更新名言
-    document.getElementById('generate-btn').addEventListener('click', function() {
-      const bgColor = document.getElementById('bg-color').value;
-      const textColor = document.getElementById('text-color').value;
-      const fontFamily = document.getElementById('font-family').value;
-      const fontSize = document.getElementById('font-size').value;
-      const quoteInput = document.getElementById('quote-input').value;
-      const designPreview = document.getElementById('design-preview');
-      designPreview.style.backgroundColor = bgColor;
-      // 更新名言内容和样式
-      const quoteDiv = document.getElementById('design-quote');
-      quoteDiv.innerHTML = `"${quoteInput}"<br><span style=\"font-size:16px;display:block;margin-top:8px;\">—— 张真源</span>`;
-      quoteDiv.style.color = textColor;
-      quoteDiv.style.fontFamily = fontFamily;
-      quoteDiv.style.fontSize = fontSize + 'px';
-      
-      showToast('名言已更新！');
-    });
+      // 名言点击复制功能
+      document.querySelectorAll('.copy-quote').forEach(function (el) {
+        el.addEventListener('click', function () {
+          const text = el.innerText.replace(/^[“"]|[”"]$/g, '');
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(text);
+            showToast('复制成功！');
+          } else {
+            // 兼容旧浏览器
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            showToast('复制成功！');
+          }
+        });
+      });
 
-    // 贴纸添加
-    document.getElementById('add-sticker-btn').addEventListener('click', function() {
-      const sticker = document.getElementById('sticker-select').value;
-      if (!sticker) return;
-      const canvas = document.getElementById('design-canvas');
-      const stickerDiv = document.createElement('div');
-      stickerDiv.innerText = sticker;
-      stickerDiv.style.position = 'absolute';
-      stickerDiv.style.left = '120px';
-      stickerDiv.style.top = '120px';
-      stickerDiv.style.fontSize = '40px';
-      stickerDiv.style.cursor = 'move';
-      stickerDiv.style.userSelect = 'none';
-      makeDraggable(stickerDiv);
-      canvas.appendChild(stickerDiv);
-      
-      showToast('贴纸已添加！');
-    });
+      // 显示提示框
+      function showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'fixed top-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-full';
+        toast.innerText = message;
+        document.body.appendChild(toast);
 
-    // 上传图片
-    document.getElementById('upload-img').addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(evt) {
-        const img = document.createElement('img');
-        img.src = evt.target.result;
-        img.style.position = 'absolute';
-        img.style.left = '160px';
-        img.style.top = '160px';
-        img.style.maxWidth = '120px';
-        img.style.maxHeight = '120px';
-        img.style.cursor = 'move';
-        img.style.userSelect = 'none';
-        makeDraggable(img);
-        document.getElementById('design-canvas').appendChild(img);
-        
-        showToast('图片已上传！');
-      };
-      reader.readAsDataURL(file);
-    });
-
-    // 初始可拖动
-    makeDraggable(document.getElementById('design-quote'));
-    
-    // 下载设计图片
-    document.getElementById('download-design-btn').addEventListener('click', function() {
-      // 创建蝴蝶特效
-      for (let i = 0; i < 5; i++) {
+        // 触发动画
         setTimeout(() => {
-          const butterfly = document.createElement('div');
-          butterfly.className = 'butterfly';
-          butterfly.innerText = '🦋';
-          // 设置蝴蝶起始位置为按钮位置
-          const rect = this.getBoundingClientRect();
-          butterfly.style.left = rect.left + rect.width/2 + 'px';
-          butterfly.style.top = rect.top + rect.height/2 + 'px';
-          // 随机设置蝴蝶的结束位置
-          const angle = Math.random() * Math.PI * 2;
-          const distance = 100 + Math.random() * 200;
-          const endX = Math.cos(angle) * distance;
-          const endY = Math.sin(angle) * distance;
-          butterfly.style.setProperty('--end-x', endX + 'px');
-          butterfly.style.setProperty('--end-y', endY + 'px');
-          document.getElementById('butterfly-container').appendChild(butterfly);
-          // 动画结束后移除蝴蝶元素
+          toast.classList.remove('translate-x-full');
+        }, 10);
+
+        // 3秒后隐藏
+        setTimeout(() => {
+          toast.classList.add('translate-x-full');
           setTimeout(() => {
-            butterfly.remove();
-          }, 3000);
-        }, i * 200);
+            document.body.removeChild(toast);
+          }, 300);
+        }, 3000);
       }
-      
-      // 使用html2canvas库下载设计图片
-      if (typeof html2canvas === 'undefined') {
-        showToast('正在加载截图工具，请稍后再试...');
-        // 动态加载html2canvas
-        const script = document.createElement('script');
-        script.src = 'https://html2canvas.hertzen.com/dist/html2canvas.min.js';
-        script.onload = function() {
-          captureAndDownload();
-        };
-        document.head.appendChild(script);
-      } else {
-        captureAndDownload();
-      }
-    });
-    
-    function captureAndDownload() {
-      const designPreview = document.getElementById('design-preview');
-      html2canvas(designPreview, {
-        logging: false,
-        useCORS: true,
-        scale: 2 // 提高分辨率
-      }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = '张真源名言设计.png';
-        link.href = canvas.toDataURL('image/png');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        showToast('图片已生成并开始下载！');
-      }).catch(error => {
-        console.error('截图失败:', error);
-        showToast('截图失败，请重试');
+
+      // 音乐下载功能
+      document.querySelectorAll('.download-btn').forEach(button => {
+        button.addEventListener('click', function () {
+          const audioUrl = this.getAttribute('data-audio');
+          if (!audioUrl) return;
+
+          // 创建隐藏的a标签用于下载
+          const link = document.createElement('a');
+          link.href = audioUrl;
+          link.download = this.parentElement.querySelector('h3').textContent.trim() + '.mp3';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+
+          // 显示下载提示
+          showToast('开始下载音乐...');
+        });
       });
-    }
-    
-    // 生日倒计时
-    function updateCountdown() {
-      // 张真源生日是4月16日
-      const now = new Date();
-      const currentYear = now.getFullYear();
-      let nextBirthday = new Date(currentYear, 3, 16); // 月份是0-11，所以4月是3
-      
-      // 如果今年生日已经过了，计算明年生日
-      if (now > nextBirthday) {
-        nextBirthday = new Date(currentYear + 1, 3, 16);
+
+      // 拖动功能
+      function makeDraggable(el) {
+        let isDragging = false, startX, startY, origX, origY;
+
+        // 鼠标事件
+        el.addEventListener('mousedown', function (e) {
+          isDragging = true;
+          startX = e.clientX;
+          startY = e.clientY;
+          origX = parseInt(el.style.left) || 0;
+          origY = parseInt(el.style.top) || 0;
+          el.style.zIndex = 10;
+          document.body.style.userSelect = 'none';
+        });
+
+        // 触摸事件（移动端支持）
+        el.addEventListener('touchstart', function (e) {
+          isDragging = true;
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+          origX = parseInt(el.style.left) || 0;
+          origY = parseInt(el.style.top) || 0;
+          el.style.zIndex = 10;
+          document.body.style.userSelect = 'none';
+          e.preventDefault(); // 防止滚动
+        });
+
+        document.addEventListener('mousemove', function (e) {
+          if (!isDragging) return;
+          let dx = e.clientX - startX;
+          let dy = e.clientY - startY;
+          el.style.left = (origX + dx) + 'px';
+          el.style.top = (origY + dy) + 'px';
+        });
+
+        document.addEventListener('touchmove', function (e) {
+          if (!isDragging) return;
+          let dx = e.touches[0].clientX - startX;
+          let dy = e.touches[0].clientY - startY;
+          el.style.left = (origX + dx) + 'px';
+          el.style.top = (origY + dy) + 'px';
+          e.preventDefault(); // 防止滚动
+        });
+
+        document.addEventListener('mouseup', function () {
+          isDragging = false;
+          el.style.zIndex = '';
+          document.body.style.userSelect = '';
+        });
+
+        document.addEventListener('touchend', function () {
+          isDragging = false;
+          el.style.zIndex = '';
+          document.body.style.userSelect = '';
+        });
       }
-      
-      const diff = nextBirthday - now;
-      
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-      
-      document.getElementById('days').textContent = days.toString().padStart(2, '0');
-      document.getElementById('hours').textContent = Math.floor(hours).toString().padStart(2, '0');
-      document.getElementById('minutes').textContent = Math.floor(minutes).toString().padStart(2, '0');
-      document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-    }
-    
-    // 初始化倒计时并每秒更新
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-    
-    // 平滑滚动到锚点
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-        
-        if (targetElement) {
-          targetElement.scrollIntoView({
-            behavior: 'smooth'
-          });
+
+      // 生成/更新名言
+      document.getElementById('generate-btn').addEventListener('click', function () {
+        const bgColor = document.getElementById('bg-color').value;
+        const textColor = document.getElementById('text-color').value;
+        const fontFamily = document.getElementById('font-family').value;
+        const fontSize = document.getElementById('font-size').value;
+        const quoteInput = document.getElementById('quote-input').value;
+        const designPreview = document.getElementById('design-preview');
+        designPreview.style.backgroundColor = bgColor;
+        // 更新名言内容和样式
+        const quoteDiv = document.getElementById('design-quote');
+        quoteDiv.innerHTML = `"${quoteInput}"<br><span style=\"font-size:16px;display:block;margin-top:8px;\">—— 张真源</span>`;
+        quoteDiv.style.color = textColor;
+        quoteDiv.style.fontFamily = fontFamily;
+        quoteDiv.style.fontSize = fontSize + 'px';
+
+        showToast('名言已更新！');
+      });
+
+      // 贴纸添加
+      document.getElementById('add-sticker-btn').addEventListener('click', function () {
+        const sticker = document.getElementById('sticker-select').value;
+        if (!sticker) return;
+        const canvas = document.getElementById('design-canvas');
+        const stickerDiv = document.createElement('div');
+        stickerDiv.innerText = sticker;
+        stickerDiv.style.position = 'absolute';
+        stickerDiv.style.left = '120px';
+        stickerDiv.style.top = '120px';
+        stickerDiv.style.fontSize = '40px';
+        stickerDiv.style.cursor = 'move';
+        stickerDiv.style.userSelect = 'none';
+        makeDraggable(stickerDiv);
+        canvas.appendChild(stickerDiv);
+
+        showToast('贴纸已添加！');
+      });
+
+      // 上传图片
+      document.getElementById('upload-img').addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (evt) {
+          const img = document.createElement('img');
+          img.src = evt.target.result;
+          img.style.position = 'absolute';
+          img.style.left = '160px';
+          img.style.top = '160px';
+          img.style.maxWidth = '120px';
+          img.style.maxHeight = '120px';
+          img.style.cursor = 'move';
+          img.style.userSelect = 'none';
+          makeDraggable(img);
+          document.getElementById('design-canvas').appendChild(img);
+
+          showToast('图片已上传！');
+        };
+        reader.readAsDataURL(file);
+      });
+
+      // 初始可拖动
+      makeDraggable(document.getElementById('design-quote'));
+
+      // 下载设计图片
+      document.getElementById('download-design-btn').addEventListener('click', function () {
+        if (!window.html2canvas) {
+          const script = document.createElement('script');
+          script.src = 'https://html2canvas.hertzen.com/dist/html2canvas.min.js';
+          script.onload = function () {
+            captureAndDownload();
+          };
+          document.head.appendChild(script);
+        } else {
+          captureAndDownload();
         }
+      });
+
+      function captureAndDownload() {
+        const designPreview = document.getElementById('design-preview');
+        html2canvas(designPreview, {
+          logging: false,
+          useCORS: true,
+          scale: 2 // 提高分辨率
+        }).then(canvas => {
+          const link = document.createElement('a');
+          link.download = '张真源名言设计.png';
+          link.href = canvas.toDataURL('image/png');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+
+          showToast('图片已生成并开始下载！');
+        }).catch(error => {
+          console.error('截图失败:', error);
+          showToast('截图失败，请重试');
+        });
+      }
+
+      // 生日倒计时
+      function updateCountdown() {
+        // 张真源生日是4月16日
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        let nextBirthday = new Date(currentYear, 3, 16); // 月份是0-11，所以4月是3
+
+        // 如果今年生日已经过了，计算明年生日
+        if (now > nextBirthday) {
+          nextBirthday = new Date(currentYear + 1, 3, 16);
+        }
+
+        const diff = nextBirthday - now;
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById('days').textContent = days.toString().padStart(2, '0');
+        document.getElementById('hours').textContent = Math.floor(hours).toString().padStart(2, '0');
+        document.getElementById('minutes').textContent = Math.floor(minutes).toString().padStart(2, '0');
+        document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+      }
+
+      // 初始化倒计时并每秒更新
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+
+      // 平滑滚动到锚点
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          }
+        });
       });
     });
   </script>
 </body>
+
 </html>
